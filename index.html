@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números Primos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="mb-3">
+        <h1>Encontrar Números Primos Anteriores</h1>
+        <div class="col-auto">
+            <label for="numero" class="form-label">Introduce un número primo:</label>
+            <input type="number" id="numero" min="2" class="form-control" />
+        </div>
+        <div class="col-auto">
+            <button onclick="mostrarPrimos()" class="btn btn-primary mb-3">Mostrar Primos</button>
+            <div id="result"></div>
+        </div>
+    </div>
+    <script>
+        function esPrimo(n) {
+            if (n <= 1) return false;
+            if (n <= 3) return true;
+            if (n % 2 === 0 || n % 3 === 0) return false;
+            for (let i = 5; i * i <= n; i += 6) {
+                if (n % i === 0 || n % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        function primosMenoresQue(n) {
+            const primos = [];
+            for (let i = 2; i < n; i++) {
+                if (esPrimo(i)) {
+                    primos.push(i);
+                }
+            }
+            return primos;
+        }
+
+        function mostrarPrimos() {
+            const numero = parseInt(document.getElementById('numero').value, 10);
+            const resultDiv = document.getElementById('result');
+            
+            if (isNaN(numero)) {
+                resultDiv.textContent = 'Por favor, introduce un número válido.';
+                return;
+            }
+
+            if (!esPrimo(numero)) {
+                resultDiv.textContent = `${numero} no es un número primo.`;
+                return;
+            }
+
+            const primos = primosMenoresQue(numero);
+            resultDiv.textContent = `Números primos menores que ${numero}: ${primos.join(', ')}`;
+        }
+    </script>
+</body>
+</html>
